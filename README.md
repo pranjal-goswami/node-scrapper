@@ -1,7 +1,7 @@
-#Insallation
+# Insallation
 
     npm install
 
-#Usage
+# Usage
 
     $ node index.js
