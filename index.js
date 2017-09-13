@@ -80,7 +80,7 @@ var scrape = function(url){
                 
                 
                 
-                //return false;
+                // return false;
             	
             })
 
@@ -127,7 +127,7 @@ var getDeatilsFromPage = function(url,data){
                 processTuitionRange($,e,data);
             }
             else if(title === 'Course Levels and Areas of Studies Areas of Studies'){
-                //processCourses($,e,data);
+                processCourses($,e,data);
 
             }
 
@@ -155,6 +155,16 @@ function processGeneralInformation($,e,data){
     tables.each(function(i,elem){
         elem = $(elem);
         //for each tr
+
+        var acronym_exist_flag = 0;
+        elem.find('tr').each(function(j,row){
+            row = $(row);
+            var key = row.find('th').first().text();
+            if(key == 'Acronym') acronym_exist_flag = 1;
+        })
+        if(acronym_exist_flag == 0) data['acronym'] = 'na';
+
+
         elem.find('tr').each(function(j,row){
             row = $(row);
 
@@ -272,30 +282,53 @@ function processCourses($,e,data){
 
         elem.find('tr').each(function(j,row){
             
-            if(j==2){
+            if(j > 2 && j<9){
                 row = $(row);
+                var field = '';
+                switch (j) {
+                        case 3:
+                            var field = "Arts and Humanities";
+                            break;
+                        case 4:
+                            var field = "Business and Social Sciences";
+                            break;
+                        case 5:
+                            var field = "Language and Cultural";
+                            break;
+                        case 6:
+                            var field = "Medicine and Health";
+                            break;
+                        case 7:
+                            var field = "Engineering";
+                            break;
+                        case 8:
+                            var field = "Science and Technology";
+                        }
+
+
                 row.find('td').each(function(k,td){
+                    if(k != 0){
                         td = $(td)
                         var check_flag = td.find('img').attr('src')
                         
                         switch (k) {
-                        case 0:
-                            var key = "PreBachelor";
-                            break;
                         case 1:
-                            var key = "Bachelor";
+                            var key = field + " PreBachelor";
                             break;
                         case 2:
-                            var key = "Master";
+                            var key = field + " Bachelor";
                             break;
                         case 3:
-                            var key = "Doctoral";
+                            var key = field + " Master";
+                            break;
+                        case 4:
+                            var key = field + " Doctoral";
                         }
-
-                        if(check_flag = '/i/1b.png.pagespeed.ce.uuwT9yD6ZA.png') {var value = 'Yes'} else {var value = 'No'}
+                        // console.log(getKey(key))
+                        if(check_flag == '/i/1b.png.pagespeed.ce.uuwT9yD6ZA.png') {var value = 'Yes'} else {var value = 'No'}
                         key = getKey(key);
                         data[key] = value;
-
+                    }
                 })
                         
             }
@@ -310,7 +343,7 @@ function getKey (label){
 
 }
 
-var url = 'http://www.4icu.org/ph/';
+var url = 'http://www.4icu.org/my/';
 
 
 scrape(url);	
