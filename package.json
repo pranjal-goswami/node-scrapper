@@ -9,6 +9,10 @@
     "express": "latest",
     "md5": "^2.2.1",
     "q": "^1.5.0",
-    "request": "latest"
+
+    "request": "latest",
+
+    "sleep": "latest"
+
   }
 }
