@@ -343,7 +343,7 @@ function getKey (label){
 
 }
 
-var url = 'http://www.4icu.org/my/';
+var url = 'http://www.4icu.org/in/';
 
 
 scrape(url);	
